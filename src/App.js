@@ -4,13 +4,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 //Components
 import Navbar from "./Components/Navbar.js"
-import AddItems from './Components/ItemComponents/AddItem.js';
+import AddItem from './Components/ItemComponents/AddItem.js';
+import UpdateItem from './Components/ItemComponents/UpdateItem.js';
 
 function App() {
   return (
     <div className="App">
       <Navbar/>
-      <AddItems/>
+      <AddItem/>
+      <UpdateItem/>
     </div>
   );
 }
