@@ -1,35 +1,68 @@
 import React, { useState } from 'react';
 
-function AddItem() {
+const AddItem = ({addItem, items}) => { //REMINDER TO ADD VALIDATIONS (ESPECIALLY FOR NUMBERS)
 
-    //input values
+    //input item values
     const [itemID, setItemID] = useState("");
     const [itemName, setItemName] = useState("");
     const [itemQuantity, setItemQuantity] = useState("");
     const [itemPrice, setItemPrice] = useState("");
     const [itemCategory, setItemCategory] = useState("");
     
+    //message field
+    const [message, setMessage] = useState("");
+    
     //prevents the submission of non-valid values in number fields
     const handleNumber = (e) => { 
         const value = e.target.value;
-        e.target.value = value.replace(/[^1-9]\d*|\D/g, '');
+        e.target.value = value.replace(/[^\d]/g, '');
     }
+
+    //handles item input
+    const handleAddItem = (e) => {
+        e.preventDefault();
+
+        const inpFields = [itemID, itemName, itemQuantity, itemPrice, itemCategory];
+        const idExists = items.some(existingItem  => existingItem.itemID === itemID)
+
+        if (inpFields.some(inpFields => !inpFields)) {  //checks for empty fields
+            setMessage("Please fill out all the fields.");
+        }
+        else if (idExists) {    //checks for duplicate ids
+            setMessage("This item ID already exists.");
+        } 
+        else {
+            addItem({
+                itemID, 
+                itemName, 
+                itemQuantity: parseInt(itemQuantity), 
+                itemPrice: parseFloat(itemPrice), 
+                itemCategory
+            });
+
+            setMessage("Item succesfully added.")
+            
+            //sets all fields back to empty
+            setItemID("");
+            setItemName("");
+            setItemQuantity("");
+            setItemPrice("");
+            setItemCategory("");
+        }  
+    };
 
     return (
       <div>
-        <form className="container text-center align-items-center"> 
-
+        <form className="container text-center align-items-center" onSubmit={handleAddItem}> 
             <div className="row">
                 <input 
                     type="text"
                     value={itemID}
                     onChange={(e) => setItemID(e.target.value)}
                     placeholder="Item ID"
-                    onInput={handleNumber}
                     required
                 />
             </div>
-
             <div className="row">
                 <input 
                     type="text" 
@@ -39,7 +72,6 @@ function AddItem() {
                     required
                 />
             </div>
-
             <div className="row">
                 <input 
                     type="number"
@@ -50,7 +82,6 @@ function AddItem() {
                     required
                 />
             </div>
-
             <div className="row">
                 <input 
                     type="number"
@@ -61,7 +92,6 @@ function AddItem() {
                     required
                 />
             </div>
-
             <div className="row">
                 <select
                     value={itemCategory}
@@ -73,18 +103,12 @@ function AddItem() {
                     <option value="Entertainment">Entertainment</option>
                 </select>
             </div>
-
             <div className="row pt-3">
                 <button type="submit">Add</button>
             </div>
         </form>
 
-        {/*Testing for values. Will remove later. */}
-        <p>{itemID}</p>
-        <p>{itemName}</p>
-        <p>{itemQuantity}</p>
-        <p>{itemPrice}</p>
-        <p>{itemCategory}</p>
+        <p>{message}</p>
 
       </div>
     );
