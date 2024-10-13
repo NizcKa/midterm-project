@@ -12,16 +12,16 @@ function UpdateItem({updateItem, items}) {  // HOLY FUNCTIONAL. Should recheck f
         e.preventDefault();
     
         const inpFields = [itemID, updateField, updateValue];
-        const itemToUpdate = items.find(existingItem => existingItem.itemID === itemID);
+        const itemToUpdate = items.find(existingItem => existingItem.itemID === itemID);    //searches for id to update
     
         if (inpFields.some(field => !field)) {  // Checks for empty fields
             setMessage("Please fill out all the fields.");
         }
-        else if (!itemToUpdate) {  // Checks if the item ID exists
+        else if (!itemToUpdate) {  // Checks if the item exists
             setMessage("This item does not exist.");
         } 
         else {
-            updateItem(itemID, updateField, updateValue);
+            updateItem(itemID, updateField, updateValue);  // Passes values to updateItem in App.js
 
             setItemID("");
             setUpdateField("");
@@ -32,6 +32,7 @@ function UpdateItem({updateItem, items}) {  // HOLY FUNCTIONAL. Should recheck f
 
     return (
       <div>
+        <h1>Update Item</h1>
         <form className="container text-center align-items-center" onSubmit={handleUpdateItem}> 
             <div className="row">
                 <input 

@@ -9,8 +9,7 @@ const AddItem = ({addItem, items}) => { //REMINDER TO ADD VALIDATIONS (ESPECIALL
     const [itemPrice, setItemPrice] = useState("");
     const [itemCategory, setItemCategory] = useState("");
     
-    //message field
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("");     //message field
     
     //prevents the submission of non-valid values in number fields
     const handleNumber = (e) => { 
@@ -53,6 +52,7 @@ const AddItem = ({addItem, items}) => { //REMINDER TO ADD VALIDATIONS (ESPECIALL
 
     return (
       <div>
+        <h1>Add Item</h1>
         <form className="container text-center align-items-center" onSubmit={handleAddItem}> 
             <div className="row">
                 <input 

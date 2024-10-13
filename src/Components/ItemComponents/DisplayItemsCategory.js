@@ -7,9 +7,10 @@ const DisplayItemsCategory = ({items}) => { //WORKS, NEEDS CLEANING UP
   //filters items based on the filter category selected
   const categoryFilter = items.filter(item => item.itemCategory.includes(filterCategory));
 
+
   return (
     <div>
-      <h1>All Inventory Items</h1>
+      <h1>All Inventory Items (by Category)</h1>
 
       <select
         value={filterCategory}
@@ -29,18 +30,16 @@ const DisplayItemsCategory = ({items}) => { //WORKS, NEEDS CLEANING UP
                   <th>Item Name</th>
                   <th>Quantity</th>
                   <th>Price</th>
-                  <th>Category</th>
                 </tr>
             </thead>
             <tbody>
-            {categoryFilter.length > 0 ? (  //checks if category is empty and display appropriate message
+            {categoryFilter.length > 0 ? (  //checks if category is empty and displays appropriate message
               categoryFilter.map(filteredItem => (
                 <tr key={filteredItem.itemID}>
                   <td>{filteredItem.itemID}</td>
                   <td>{filteredItem.itemName}</td>
                   <td>{filteredItem.itemQuantity}</td>
                   <td>${filteredItem.itemPrice.toFixed(2)}</td>
-                  <td>{filteredItem.itemCategory}</td>
                 </tr>
               ))
             ) : (
@@ -55,6 +54,7 @@ const DisplayItemsCategory = ({items}) => { //WORKS, NEEDS CLEANING UP
         )}
     </div>
   );
+  
 };
 
 export default DisplayItemsCategory;
