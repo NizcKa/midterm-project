@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const SortItems = ({items}) => {    //JOB'S  DONE
-    const [sortType, setSortType] = useState(""); 
-    const [sortField, setSortField] = useState(""); 
-
+const SortItems = ({ items }) => { // JOB'S DONE
+    const [sortType, setSortType] = useState("");
+    const [sortField, setSortField] = useState("");
     const [sortedItems, setSortedItems] = useState([]); // Stores search result
 
-    //Triggers when changes are made to items array, sortField, or sortType
+    // Triggers when changes are made to items array, sortField, or sortType
     useEffect(() => {
         const sortedArray = [...items]; // Create a copy of the items list to sort
 
@@ -32,12 +31,13 @@ const SortItems = ({items}) => {    //JOB'S  DONE
         setSortedItems(sortedArray); // Stores the sorted list into an array to display
     }, [items, sortField, sortType]);
 
-
     return (
-        <div>
-            <h1>Sort Items</h1>
+		<div className="container">
+
+            <h1 className="text-center">Sort Items</h1>
 
             <select
+            	className="form-select rounded-0"
                 value={sortType}
                 onChange={(e) => setSortType(e.target.value)}
             > 
@@ -47,6 +47,7 @@ const SortItems = ({items}) => {    //JOB'S  DONE
             </select>
 
             <select
+            	className="form-select rounded-0"
                 value={sortField}
                 onChange={(e) => setSortField(e.target.value)}
             > 
@@ -56,8 +57,8 @@ const SortItems = ({items}) => {    //JOB'S  DONE
             </select>
 
             {items.length > 0 ? ( 
-                <table className="container text-center align-items-center">
-                    <thead>
+                <table className="table table-striped table-bordered text-center table-hover">
+                    <thead className="table-light">
                         <tr>
                             <th>Item ID</th>
                             <th>Item Name</th>
@@ -67,27 +68,27 @@ const SortItems = ({items}) => {    //JOB'S  DONE
                         </tr>
                     </thead>
                     <tbody>
-                    {sortedItems.length > 0 ? (  //check if there is a stored sorted list
-                        sortedItems.map(item => (  //Displays sorted list
-                            <tr key={item.itemID}>
-                                <td>{item.itemID}</td>
-                                <td>{item.itemName}</td>
-                                <td>{item.itemQuantity}</td>
-                                <td>${item.itemPrice.toFixed(2)}</td>
-                                <td>{item.itemCategory}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        items.map(item => (  //Displays unsorted list
-                            <tr key={item.itemID}>
-                                <td>{item.itemID}</td>
-                                <td>{item.itemName}</td>
-                                <td>{item.itemQuantity}</td>
-                                <td>${item.itemPrice.toFixed(2)}</td>
-                                <td>{item.itemCategory}</td>
-                            </tr>
-                        ))
-                    )}
+                        {sortedItems.length > 0 ? ( // Check if there is a stored sorted list
+                            sortedItems.map(item => ( // Displays sorted list
+                                <tr key={item.itemID}>
+                                    <td>{item.itemID}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.itemQuantity}</td>
+                                    <td>${item.itemPrice.toFixed(2)}</td>
+                                    <td>{item.itemCategory}</td>
+                                </tr>
+                            ))
+                        ) : (   
+                            items.map(item => ( // if no sorted list (no options chosen yet) displays unsorted list
+                                <tr key={item.itemID}>
+                                    <td>{item.itemID}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.itemQuantity}</td>
+                                    <td>${item.itemPrice.toFixed(2)}</td>
+                                    <td>{item.itemCategory}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             ) : (
@@ -95,6 +96,8 @@ const SortItems = ({items}) => {    //JOB'S  DONE
             )}
         </div>
     );
+    
 }
 
 export default SortItems;
+

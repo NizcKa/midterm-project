@@ -1,60 +1,61 @@
 import React, { useState } from 'react';
 
-const DisplayItemsCategory = ({items}) => { //WORKS, NEEDS CLEANING UP
+const DisplayItemsCategory = ({ items }) => { // DONE
 
-  const [filterCategory, setFilterCategory] = useState("");
+    const [filterCategory, setFilterCategory] = useState("");
 
-  //filters items based on the filter category selected
-  const categoryFilter = items.filter(item => item.itemCategory.includes(filterCategory));
+    // Filters items based on the filter category selected
+    const categoryFilter = items.filter(item => item.itemCategory.includes(filterCategory));
 
+    return (
+        <div className="container">
 
-  return (
-    <div>
-      <h1>All Inventory Items (by Category)</h1>
+            <h1 className="text-center mb-4">All Inventory Items (by Category)</h1>
 
-      <select
-        value={filterCategory}
-        onChange={(e) => setFilterCategory(e.target.value)}
-      > 
-        <option value="">None</option>
-        <option value="Clothing">Clothing</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Entertainment">Entertainment</option>
-      </select>
+            <select
+            	className="form-select rounded-0"
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+            > 
+                <option value="">None</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Entertainment">Entertainment</option>
+            </select>
 
-        {items.length > 0 ? ( 
-          <table className="container text-center align-items-center">
-            <thead>
-                <tr>
-                  <th>Item ID</th>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            {categoryFilter.length > 0 ? (  //checks if category is empty and displays appropriate message
-              categoryFilter.map(filteredItem => (
-                <tr key={filteredItem.itemID}>
-                  <td>{filteredItem.itemID}</td>
-                  <td>{filteredItem.itemName}</td>
-                  <td>{filteredItem.itemQuantity}</td>
-                  <td>${filteredItem.itemPrice.toFixed(2)}</td>
-                </tr>
-              ))
+            {items.length > 0 ? ( 
+                <table className="table table-striped table-bordered text-center table-hover">
+                    <thead className="table-light">
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {categoryFilter.length > 0 ? ( // Checks if category is empty and displays appropriate message
+                            categoryFilter.map(filteredItem => (
+                                <tr key={filteredItem.itemID}>
+                                    <td>{filteredItem.itemID}</td>
+                                    <td>{filteredItem.itemName}</td>
+                                    <td>{filteredItem.itemQuantity}</td>
+                                    <td>${filteredItem.itemPrice.toFixed(2)}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4">Category is empty.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             ) : (
-              <tr>
-                <td colSpan="5">Category is empty.</td>
-              </tr>
+                <p className="text-center">Inventory is empty.</p>
             )}
-          </tbody>
-          </table>
-        ): (
-          <p>Inventory is empty.</p>
-        )}
-    </div>
-  );
-  
+        </div>
+    );
+    
 };
 
 export default DisplayItemsCategory;

@@ -1,76 +1,96 @@
 import React, { useState } from 'react';
 
-function UpdateItem({updateItem, items}) {  // HOLY FUNCTIONAL. Should recheck for validations just in case.
-    const [itemID, setItemID] = useState("");
-    const [updateField, setUpdateField] = useState("");
-    const [updateValue, setUpdateValue] = useState("");
+function UpdateItem({ updateItem, items }) {
+	const [itemID, setItemID] = useState("");
+	const [updateField, setUpdateField] = useState("");
+	const [updateValue, setUpdateValue] = useState("");
+	const [message, setMessage] = useState("");
 
-    //message field
-    const [message, setMessage] = useState("");
+	const handleNumber = (e) => {
+		setMessage("");	
+		const value = e.target.value;
+		e.target.value = value.replace(/[^\d]/g, "");
+		if (value === "") {
+			setMessage("Please input appropriate values.");
+		}
+	}
 
-    const handleUpdateItem = (e) => {
-        e.preventDefault();
-    
-        const inpFields = [itemID, updateField, updateValue];
-        const itemToUpdate = items.find(existingItem => existingItem.itemID === itemID);    //searches for id to update
-    
-        if (inpFields.some(field => !field)) {  // Checks for empty fields
-            setMessage("Please fill out all the fields.");
-        }
-        else if (!itemToUpdate) {  // Checks if the item exists
-            setMessage("This item does not exist.");
-        } 
-        else {
-            updateItem(itemID, updateField, updateValue);  // Passes values to updateItem in App.js
+	const handleUpdateItem = (e) => {
+		e.preventDefault();
 
-            setItemID("");
-            setUpdateField("");
-            setUpdateValue("");
-            setMessage("Item successfully updated.");
-        }   
-    };
+		const inpFields = [itemID, updateField, updateValue];
+		const itemToUpdate = items.find(existingItem => existingItem.itemID === itemID.trim());
 
-    return (
-      <div>
-        <h1>Update Item</h1>
-        <form className="container text-center align-items-center" onSubmit={handleUpdateItem}> 
-            <div className="row">
-                <input 
-                    type="text"
-                    value={itemID}
-                    onChange={(e) => setItemID(e.target.value)}
-                    placeholder="Item ID"
-                    required
-                />
-            </div>
-            <div className="row">
-                <select
-                    value={updateField}
-                    onChange={(e) => setUpdateField(e.target.value)}
-                >
-                    <option value="" disabled selected hidden>Select field to update</option>
-                    <option value="Quantity">Quantity</option>
-                    <option value="Price">Price</option>
-                </select>
-            </div>
-            <div className="row">
-                <input 
-                    type="number"
-                    value={updateValue}
-                    onChange={(e) => setUpdateValue(e.target.value)}
-                    placeholder="New value"
-                    required
-                />
-            </div>
-            <div className="row pt-3">
-                <button>Update</button>
-            </div>
-        </form>
+		if (inpFields.some(field => !field)) {
+			setMessage("Please fill out all the fields.");
+		}
+		else if (!itemToUpdate) {
+			setMessage("This item does not exist.");
+		} 
+		else {
+			const prevValue = itemToUpdate[`item${updateField}`];
 
-        <p>{message}</p>
+			updateItem(
+				itemID.trim(), 
+				updateField, 
+				updateValue.trim()
+			);
 
-      </div>
-    );
-  }
+			setItemID("");
+			setUpdateField("");
+			setUpdateValue("");
+			setMessage(`${updateField} of item ${itemToUpdate.itemName} updated from ${parseFloat(prevValue)} to ${parseFloat(updateValue)}`);
+		}
+	}   
 
-  export default UpdateItem;
+	return (
+		<div className="container">
+
+			<h1 className="text-center mb-4">Update Item</h1>
+
+			<form className="text-center" onSubmit={handleUpdateItem}> 
+				<div className="mb-3">
+					<input 
+						type="text"
+						className="form-control rounded-0"
+						value={itemID}
+						onChange={(e) => setItemID(e.target.value)}
+						placeholder="Item ID"
+						required
+					/>
+				</div>
+				<div className="mb-3">
+					<select
+						className="form-select rounded-0"
+						value={updateField}
+						onChange={(e) => setUpdateField(e.target.value)}
+					>
+						<option value="" disabled selected hidden>Select field to update</option>
+						<option value="Quantity">Quantity</option>
+						<option value="Price">Price</option>
+					</select>
+				</div>
+				<div className="mb-3">
+					<input 
+						type="number"
+						className="form-control rounded-0"
+						value={updateValue}
+						onChange={(e) => setUpdateValue(e.target.value)}
+						placeholder="New value"
+						onInput={handleNumber}
+						required
+					/>
+				</div>
+				<div className="mb-3">
+					<button className="btn btn-primary rounded-0">Update</button>
+				</div>
+			</form>
+
+			<h4 className="text-center">{message}</h4>
+		</div>
+	);
+	
+}
+
+export default UpdateItem;
+

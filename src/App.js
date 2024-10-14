@@ -3,8 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  //will use this at some point
 
-//Components
+//Design components
 import Navbar from "./Components/Navbar.js"
+import Home from "./Components/Home.js"
+
+//Item components
 import AddItem from './Components/ItemComponents/AddItem.js';
 import UpdateItem from './Components/ItemComponents/UpdateItem.js';
 import RemoveItem from './Components/ItemComponents/RemoveItem.js';
@@ -48,18 +51,24 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Navbar/>
-      <AddItem addItem={addItem} items={items}/>
-      <UpdateItem updateItem={updateItem} items={items}/>
-      <RemoveItem removeItem={removeItem} items={items}/>
-      <DisplayItemsAll items={items}/>
-      <DisplayItemsCategory items={items}/>
-      <SearchItem items={items}/>
-      <SortItems items={items}/>
-      <DisplayItemsLowStock items={items}/>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/add-item" element={<AddItem addItem={addItem} items={items}/>}/>
+          <Route path="/update-item" element={<UpdateItem updateItem={updateItem} items={items}/>}/>
+          <Route path="/remove-item" element={<RemoveItem removeItem={removeItem} items={items}/>}/>
+          <Route path="/display-category" element={<DisplayItemsCategory items={items}/>}/>
+          <Route path="/display-all" element={<DisplayItemsAll items={items}/>}/>
+          <Route path="/search-item" element={<SearchItem items={items}/>}/>
+          <Route path="/sort-items" element={<SortItems items={items}/>}/>
+          <Route path="/display-low-stock" element={<DisplayItemsLowStock items={items}/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
+
 }
 
 export default App;
