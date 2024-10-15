@@ -19,33 +19,35 @@ const RemoveItem = ({ removeItem, items }) => {   //DONE
 			removeItem(itemID); // Passes input item ID to App.js
 			
 			setItemID("");
-			setMessage("Item successfully removed.");
+			setMessage(`Item ${itemToRemove.itemName} has been removed from the inventory`);
 		}
 	}
 
 	return (
-		<div className="container">
-			
-			<h1 className="text-center mb-4">Remove Item</h1>
-			
-			<form className="text-center" onSubmit={handleRemoveItem}> 
-				<div className="mb-3">
-					<input 
-						type="text"
-						className="form-control rounded-0"
-						value={itemID}
-						onChange={(e) => setItemID(e.target.value)}
-						placeholder="Item ID"
-						required
-					/>
-				</div>
-				<div className="mb-3">
-					<button type="submit" className="btn btn-danger rounded-0">Remove</button>
-				</div>
-			</form>
+		<section className="text-center bg-img alternate pt-3 d-flex vh-100">
+			<div className="container">
+				
+				<h1 className="text-center mb-4">Remove Item</h1>
+				
+				<form className="text-center" onSubmit={handleRemoveItem}> 
+					<div className="mb-3">
+						<input 
+							type="text"
+							className="form-control rounded-0"
+							value={itemID}
+							onChange={(e) => setItemID(e.target.value)}
+							placeholder="Item ID"
+							required
+						/>
+					</div>
+					<div className="mb-3">
+						<button type="submit" className="btn btn-danger rounded-0">Remove</button>
+					</div>
+				</form>
 
-			<h4 className="text-center">{message}</h4> {/* Show messages in red color */}
-		</div>
+				<h4 className="mt-3 text-center">{message}</h4> {/* Show messages in red color */}
+			</div>
+		</section>
 	);
 
 }
